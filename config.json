@@ -1,0 +1,23 @@
+{
+    "ollamaAddresses":["http://localhost:11434"],
+    "gatewayAddress": "0.0.0.0:8080",
+    "logging": true,
+    "authHeaderName": "Authorization",
+    "apiKeys": [
+        "ahP7DieD7rNpTUa6No--iJpOaXY3TDK8dIjKg0cp-hI"
+    ],
+    "rateLimit": {
+        "maxRequests": 10,
+        "timeWindowSeconds": 15,
+        "enabled": false
+    },
+    "security": {
+        "allowIps": [],
+        "denyIps": []
+    },
+    "metrics": {
+        "enabled": true,
+        "endpoint": "/metrics",
+        "namespace": "gateway"
+    }
+}
