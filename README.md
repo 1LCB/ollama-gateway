@@ -60,6 +60,19 @@ The gateway configuration is stored in a `config.json` file. Below is an example
 
 ---
 
+## Run using Docker
+
+You can run the Ollama Gateway easily using Docker, simply execute the following command:
+
+```bash
+docker run -d \
+  -v /path/to/config.json:/config.json \
+  -p 8080:8080 \
+  1lcb/ollama-gateway:<tag>
+```
+
+---
+
 ## HTTP Endpoints
 
 - **`/`**: Reverse proxy endpoint to forward requests to Ollama servers.
