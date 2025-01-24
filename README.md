@@ -24,16 +24,23 @@ The gateway configuration is stored in a `config.json` file. Below is an example
 
 ```json
 {
-    "ollamaAddresses": ["http://localhost:11434"],
+    "ollamaAddresses":[
+        "http://localhost:11434/"
+    ],
+    "loadBalancer": {
+        "healthCheckIntervalInSeconds": 30,
+        "healthCheckEndpoint": "/",
+        "healthCheckTimeoutInMilliseconds": 5000
+    },
     "gatewayAddress": "0.0.0.0:8080",
     "logging": true,
     "authHeaderName": "Authorization",
     "apiKeys": [
-        "ahP7DieD7rNpTUa6No--iJpOaXY3TDK8dIjKg0cp-hI="
+        "ahP7DieD7rNpTUa6No--iJpOaXY3TDK8dIjKg0cp-hI"
     ],
     "rateLimit": {
-        "maxRequests": 25,
-        "timeWindowSeconds": 30,
+        "maxRequests": 10,
+        "timeWindowSeconds": 15,
         "enabled": false
     },
     "security": {
@@ -68,7 +75,7 @@ You can run the Ollama Gateway easily using Docker, simply execute the following
 docker run -d \
   -v /path/to/config.json:/config.json \
   -p 8080:8080 \
-  1lcb/ollama-gateway:<tag>
+  1lcb/ollama-gateway:1.1
 ```
 
 ---
