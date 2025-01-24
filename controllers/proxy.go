@@ -6,18 +6,22 @@ import (
 	"net/url"
 	"ollamaGateway/config"
 	"ollamaGateway/utils"
-	"sync"
 )
 
 var (
-	cfg              = config.GetConfig()
-	logger           = utils.GetLogger()
-	currentIndex int = 0
-	mu           sync.Mutex
+	cfg          = config.GetConfig()
+	logger       = utils.GetLogger()
+	loadBalancer = utils.NewLoadBalancer(cfg.OllamaAddresses)
 )
 
 func ProxyHandler(w http.ResponseWriter, r *http.Request) {
-	address := getAddressRoundRobin()
+	address, err := loadBalancer.GetServerByRoundRobin()
+	if err != nil {
+		logger.Error("Healthy Backend Servers are not available")
+		return
+	}
+
+	logger.Info("Server selected: " + address)
 	url, err := url.Parse(address)
 	if err != nil {
 		logger.Error("Error parsing Ollama address: " + err.Error())
@@ -26,14 +30,4 @@ func ProxyHandler(w http.ResponseWriter, r *http.Request) {
 
 	reverseProxy := httputil.NewSingleHostReverseProxy(url)
 	reverseProxy.ServeHTTP(w, r)
-}
-
-func getAddressRoundRobin() string {
-	mu.Lock()
-	address := cfg.OllamaAddresses[currentIndex]
-	if len(cfg.OllamaAddresses) > 1 {
-		currentIndex = (currentIndex + 1) % len(cfg.OllamaAddresses)
-	}
-	mu.Unlock()
-	return address
 }

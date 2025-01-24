@@ -34,6 +34,7 @@ func ReloadConfigHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	utils.ReloadLogger()
+	loadBalancer.SetServers(cfg.OllamaAddresses)
 	
 	w.WriteHeader(http.StatusOK)
 	w.Write([]byte("OK"))

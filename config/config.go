@@ -11,6 +11,12 @@ var (
 	config *Config
 )
 
+type LoadBalancer struct {
+	HealthCheckIntervalInSeconds int    `json:"healthCheckIntervalInSeconds"`
+	HealthCheckEndpoint          string `json:"healthCheckEndpoint"`
+	HealthCheckTimeoutInMillis   int    `json:"healthCheckTimeoutInMilliseconds"`
+}
+
 type RateLimit struct {
 	MaxRequests       int  `json:"maxRequests"`
 	TimeWindowSeconds int  `json:"timeWindowSeconds"`
@@ -29,14 +35,15 @@ type Metrics struct {
 }
 
 type Config struct {
-	OllamaAddresses []string  `json:"ollamaAddresses"`
-	GatewayAddress  string    `json:"gatewayAddress"`
-	Logging         bool      `json:"logging"`
-	AuthHeaderName  string    `json:"authHeaderName"`
-	APIKeys         []string  `json:"apiKeys"`
-	RateLimit       RateLimit `json:"rateLimit"`
-	Security        Security  `json:"security"`
-	Metrics         Metrics   `json:"metrics"`
+	OllamaAddresses []string     `json:"ollamaAddresses"`
+	GatewayAddress  string       `json:"gatewayAddress"`
+	Logging         bool         `json:"logging"`
+	AuthHeaderName  string       `json:"authHeaderName"`
+	APIKeys         []string     `json:"apiKeys"`
+	RateLimit       RateLimit    `json:"rateLimit"`
+	Security        Security     `json:"security"`
+	Metrics         Metrics      `json:"metrics"`
+	LoadBalancer    LoadBalancer `json:"loadBalancer"`
 }
 
 func (c *Config) IsIPAllowed(ip string) bool {
@@ -92,6 +99,7 @@ func (c *Config) Update(updatedConfig *Config) {
 	c.RateLimit = updatedConfig.RateLimit
 	c.Security = updatedConfig.Security
 	c.Metrics = updatedConfig.Metrics
+	c.LoadBalancer = updatedConfig.LoadBalancer
 }
 
 

@@ -1,5 +1,12 @@
 {
-    "ollamaAddresses":["http://localhost:11434"],
+    "ollamaAddresses":[
+        "http://localhost:11434/"
+    ],
+    "loadBalancer": {
+        "healthCheckIntervalInSeconds": 30,
+        "healthCheckEndpoint": "/",
+        "healthCheckTimeoutInMilliseconds": 5000
+    },
     "gatewayAddress": "0.0.0.0:8080",
     "logging": true,
     "authHeaderName": "Authorization",
