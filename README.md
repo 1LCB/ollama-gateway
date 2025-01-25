@@ -75,7 +75,7 @@ You can run the Ollama Gateway easily using Docker, simply execute the following
 docker run -d \
   -v /path/to/config.json:/config.json \
   -p 8080:8080 \
-  1lcb/ollama-gateway:1.1
+  1lcb/ollama-gateway:latest
 ```
 
 ---
